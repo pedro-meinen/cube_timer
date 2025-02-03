@@ -1,5 +1,6 @@
-from .scrambler import scramble
+from .scrambler import generate_scramble
 
 
 def main() -> None:
-    scramble()
+    scramble = generate_scramble()
+    print(scramble)

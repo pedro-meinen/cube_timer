@@ -1,15 +1,12 @@
-"""
-Implementação minima de um algoritimo de geração de embaralhamento de cubo magico
-"""
-
 from random import choice
 
-from .moves import Move, generate_moves
+from .generate import generate_moves
+from .moves import Move
 
 MOVESETS = generate_moves()
 
 
-def check_move(current_move: Move, last_move: Move | None) -> tuple[bool, Move | None]:
+def _check_move(current_move: Move, last_move: Move | None) -> tuple[bool, Move | None]:
     if not last_move:
         return True, current_move
 
@@ -31,14 +28,13 @@ def generate_scramble() -> str:
     while len(scramble) < 20:
         current_moveset = choice(MOVESETS)
         move = choice(current_moveset)
-        print(move)
 
         try:
             last_move = scramble[-1]
         except IndexError:
             last_move = None
 
-        new_move, actual_move = check_move(move, last_move)
+        new_move, actual_move = _check_move(move, last_move)
 
         if not actual_move:
             continue
@@ -49,8 +45,3 @@ def generate_scramble() -> str:
             scramble[-1] = actual_move
 
     return ", ".join(str(m) for m in scramble)
-
-
-def scramble() -> None:
-    scramble = generate_scramble()
-    print(scramble)

@@ -1,13 +1,13 @@
 from enum import Enum, StrEnum, auto
 
 
-class MoveType(Enum):
+class Direction(Enum):
     NORMAL = auto
     PRIME = auto
     DOUBLE = auto
 
 
-class Direction(StrEnum):
+class Face(StrEnum):
     RIGHT = "R"
     LEFT = "L"
     FRONT = "F"
