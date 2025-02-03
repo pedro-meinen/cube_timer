@@ -1,2 +1,5 @@
+from .scrambler import scramble
+
+
 def main() -> None:
-    print("Hello from cube-timer!")
+    scramble()
