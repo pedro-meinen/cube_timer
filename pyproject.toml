@@ -7,7 +7,9 @@ authors = [
     { name = "pedro_meinen", email = "pedromeinen99@gmail.com" }
 ]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "textual>=1.0.0",
+]
 
 [project.scripts]
 cube-timer = "cube_timer:main"
