@@ -6,7 +6,9 @@ from .moves import Move
 MOVESETS = generate_moves()
 
 
-def _check_move(current_move: Move, last_move: Move | None) -> tuple[bool, Move | None]:
+def _check_move(
+    current_move: Move, last_move: Move | None
+) -> tuple[bool, Move | None]:
     if not last_move:
         return True, current_move
 

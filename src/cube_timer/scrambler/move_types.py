@@ -3,8 +3,8 @@ from enum import Enum, StrEnum, auto
 
 class Direction(Enum):
     NORMAL = auto
-    PRIME = auto
-    DOUBLE = auto
+    PRIME = auto  # noqa: PIE796
+    DOUBLE = auto  # noqa: PIE796
 
 
 class Face(StrEnum):

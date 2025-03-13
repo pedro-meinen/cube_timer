@@ -1,11 +1,10 @@
 from dataclasses import dataclass
 from typing import Protocol
 
-from .types import Direction as Direction
-from .types import Face as Face
+from .move_types import Direction as Direction
+from .move_types import Face as Face
 
 
-@dataclass(repr=False)
 class Move(Protocol):
     face: Face
     direction: Direction
@@ -31,22 +30,22 @@ class NormalMove:
     direction: Direction = Direction.NORMAL
 
     def should_skip(self, last_move: Move) -> bool:
-        if self.face == last_move.face and last_move.direction == Direction.PRIME:
-            return True
-
-        return False
+        return bool(
+            self.face == last_move.face
+            and last_move.direction == Direction.PRIME
+        )
 
     def should_invert(self, last_move: Move) -> bool:
-        if self.face == last_move.face and last_move.direction == Direction.DOUBLE:
-            return True
-
-        return False
+        return bool(
+            self.face == last_move.face
+            and last_move.direction == Direction.DOUBLE
+        )
 
     def should_double(self, last_move: Move) -> bool:
-        if self.face == last_move.face and last_move.direction == Direction.NORMAL:
-            return True
-
-        return False
+        return bool(
+            self.face == last_move.face
+            and last_move.direction == Direction.NORMAL
+        )
 
     @property
     def doubled_move(self) -> "DoubleMove":
@@ -61,27 +60,27 @@ class NormalMove:
 
 
 @dataclass(repr=False)
-class PrimeMove(Move):
+class PrimeMove:
     face: Face
     direction: Direction = Direction.PRIME
 
     def should_skip(self, last_move: Move) -> bool:
-        if self.face == last_move.face and last_move.direction == Direction.NORMAL:
-            return True
-
-        return False
+        return bool(
+            self.face == last_move.face
+            and last_move.direction == Direction.NORMAL
+        )
 
     def should_invert(self, last_move: Move) -> bool:
-        if self.face == last_move.face and last_move.direction == Direction.DOUBLE:
-            return True
-
-        return False
+        return bool(
+            self.face == last_move.face
+            and last_move.direction == Direction.DOUBLE
+        )
 
     def should_double(self, last_move: Move) -> bool:
-        if self.face == last_move.face and last_move.direction == Direction.PRIME:
-            return True
-
-        return False
+        return bool(
+            self.face == last_move.face
+            and last_move.direction == Direction.PRIME
+        )
 
     @property
     def doubled_move(self) -> "DoubleMove":
@@ -96,31 +95,28 @@ class PrimeMove(Move):
 
 
 @dataclass(repr=False)
-class DoubleMove(Move):
+class DoubleMove:
     face: Face
     direction: Direction = Direction.DOUBLE
 
     def should_skip(self, last_move: Move) -> bool:
-        if (
+        return bool(
             self.direction == last_move.direction
             and last_move.direction == Direction.DOUBLE
-        ):
-            return True
-
-        return False
+        )
 
     def should_invert(self, last_move: Move) -> bool:
         self._last = last_move.direction
 
         match last_move.direction:
             case Direction.NORMAL:
-                return True if self.face == last_move.face else False
+                return self.face == last_move.face
             case Direction.PRIME:
-                return True if self.face == last_move.face else False
+                return self.face == last_move.face
             case Direction.DOUBLE:
                 return False
 
-    def should_double(self, last_move: Move) -> bool:
+    def should_double(self, last_move: Move) -> bool:  # noqa: ARG002
         return False
 
     @property
